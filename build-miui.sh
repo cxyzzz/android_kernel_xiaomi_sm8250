@@ -116,6 +116,9 @@ else
     echo "KSU is disabled"
 fi
 
+echo "Integrating Baseband-guard..."
+curl -LSs "https://github.com/vc-teahouse/Baseband-guard/raw/main/setup.sh" | bash
+sed -i '/^config LSM$/,/^help$/{ /^[[:space:]]*default/ { /baseband_guard/! s/selinux/selinux,baseband_guard/ } }' security/Kconfig
 
 
 echo "Cleaning..."
@@ -196,7 +199,18 @@ if [ $KSU_ENABLE -eq 1 ]; then
     scripts/config --file out/.config \
     -e KSU \
     -e THREAD_INFO_IN_TASK \
-    -e KSU_MULTI_MANAGER_SUPPORT
+    -d KSU_SUSFS \
+    -d KSU_SUSFS_SUS_PATH \
+    -d KSU_SUSFS_SUS_MOUNT \
+    -d KSU_SUSFS_SUS_KSTAT \
+    -d KSU_SUSFS_SPOOF_UNAME \
+    -d KSU_SUSFS_ENABLE_LOG \
+    -d KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS \
+    -d KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG \
+    -d KSU_SUSFS_OPEN_REDIRECT \
+    -d KSU_SUSFS_SUS_MAP \
+    -e KSU_MULTI_MANAGER_SUPPORT \
+    -e KPM
 else
     scripts/config --file out/.config -d KSU
 fi
@@ -216,7 +230,7 @@ scripts/config --file out/.config \
     -e BINDER_OPT \
     -e KPERFEVENTS \
     -e MILLET \
-    -d PERF_HUMANTASK \
+    -e PERF_HUMANTASK \
     -d LTO_CLANG \
     -e LTO_NONE \
     -e SF_BINDER \
@@ -253,6 +267,15 @@ rm -rf anykernel/kernels/
 mkdir -p anykernel/kernels/miui/
 
 # Patch for SukiSU KPM support. 
+if [ $KSU_ENABLE -eq 1 ]; then
+    cd out/arch/arm64/boot/
+    wget https://github.com/SukiSU-Ultra/SukiSU_KernelPatch_patch/releases/download/0.13.0/patch_linux
+    chmod +x patch_linux
+    ./patch_linux
+    rm Image
+    mv oImage Image
+    cd -
+fi
 
 cp out/arch/arm64/boot/Image anykernel/kernels/miui/
 cp out/arch/arm64/boot/dtb anykernel/kernels/miui/
