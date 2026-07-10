@@ -318,6 +318,7 @@ scripts/config --file out/.config \
     -e NETFILTER_NETLINK_LOG \
     -e NETFILTER_XT_TARGET_NFLOG
 
+make $MAKE_ARGS olddefconfig
 make $MAKE_ARGS -j$(nproc)
 
 if [ -f "out/arch/arm64/boot/Image" ]; then
