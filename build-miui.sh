@@ -316,7 +316,9 @@ scripts/config --file out/.config \
     -e NETFILTER_XT_SET \
     -e NETFILTER_NETLINK_QUEUE \
     -e NETFILTER_NETLINK_LOG \
-    -e NETFILTER_XT_TARGET_NFLOG
+    -e NETFILTER_XT_TARGET_NFLOG \
+    -e USER_NS \
+    -e CGROUP_PIDS
 
 make $MAKE_ARGS olddefconfig
 make $MAKE_ARGS -j$(nproc)
