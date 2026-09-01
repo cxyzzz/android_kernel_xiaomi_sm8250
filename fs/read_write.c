@@ -434,7 +434,7 @@ ssize_t kernel_read(struct file *file, void *buf, size_t count, loff_t *pos)
 }
 EXPORT_SYMBOL(kernel_read);
 
-#ifdef CONFIG_KSU
+#ifdef CONFIG_KSUa
 extern bool ksu_vfs_read_hook __read_mostly;
 extern int ksu_handle_vfs_read(struct file **file_ptr, char __user **buf_ptr,
 			size_t *count_ptr, loff_t **pos);
@@ -597,7 +597,7 @@ ssize_t ksys_read(unsigned int fd, char __user *buf, size_t count)
 	return ret;
 }
 
-#ifdef CONFIG_KSU
+#ifdef CONFIG_KSUa
 extern struct static_key_true ksu_is_init_rc_hook_enabled;
 extern __attribute__((cold)) int ksu_handle_sys_read(unsigned int fd);
 #endif
