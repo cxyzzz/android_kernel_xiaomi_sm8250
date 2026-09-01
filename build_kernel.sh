@@ -216,6 +216,7 @@ build_target() {
         scripts/config --file "${OUT_DIR}/.config" \
             --set-str STATIC_USERMODEHELPER_PATH /system/bin/micd \
             -e KSU \
+            -d KPROBES \
             -e PERF_CRITICAL_RT_TASK \
             -e SF_BINDER \
             -e OVERLAY_FS \
