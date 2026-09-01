@@ -79,7 +79,7 @@ if [ "$ENABLE_KSU" -eq 1 ]; then
     curl -LSs "https://raw.githubusercontent.com/ReSukiSU/ReSukiSU/main/kernel/setup.sh" | bash
     echo "[+] KernelSU setup finished."
 fi
-
+curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s v0.9.5
 # ==========================================
 # Baseband-guard Setup
 # ==========================================
@@ -215,6 +215,7 @@ build_target() {
         echo "[*] Injecting MIUI specific configurations..."
         scripts/config --file "${OUT_DIR}/.config" \
             --set-str STATIC_USERMODEHELPER_PATH /system/bin/micd \
+            -e KSU \
             -e PERF_CRITICAL_RT_TASK \
             -e SF_BINDER \
             -e OVERLAY_FS \
