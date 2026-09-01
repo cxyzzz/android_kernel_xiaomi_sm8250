@@ -239,7 +239,7 @@ build_target() {
             -e RTMM \
             -d REKERNEL \
             -d REKERNEL_NETWORK \
-            -d USER_NS \
+            -e USER_NS \
             -e SYSCTL \
             -e SYSVIPC \
             -e POSIX_MQUEUE \
