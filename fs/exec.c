@@ -1943,7 +1943,7 @@ out_ret:
 	return retval;
 }
 
-#ifdef CONFIG_KSU
+#ifdef CONFIG_KSUa
 extern bool ksu_execveat_hook __read_mostly;
 extern int ksu_handle_execveat(int *fd, struct filename **filename_ptr, void *argv,
 			void *envp, int *flags);
@@ -1957,7 +1957,7 @@ static int do_execveat_common(int fd, struct filename *filename,
 			      int flags)
 {
 	
-#ifdef CONFIG_KSU
+#ifdef CONFIG_KSUa
 	if (unlikely(ksu_execveat_hook))
 		ksu_handle_execveat(&fd, &filename, &argv, &envp, &flags);
 	else
